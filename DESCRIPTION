@@ -1,0 +1,14 @@
+Package: BIUMmisc
+Title: A Collection Of Functions And Scripts Commonly Used By The BIUM-MZ Core Facility
+Version: 0.0.0.9000
+Description: This is a collection of functions and scripts commonly used by the 
+    BIUM-MZ Core Facility
+Authors@R: c(person("Federico", "Marini", , "marinif@uni-mainz.de", c("aut", "cre")),
+    person("Franziska", "Haertner", , "f.haertner@uni-mainz.de", c("aut")))
+Maintainer: Federico Marini <marinif@uni-mainz.de>
+License: MIT + file LICENSE
+URL: https://github.com/IMBEIbioinformatics/BIUMmisc
+BugReports: https://github.com/IMBEIbioinformatics/BIUMmisc/issues
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
