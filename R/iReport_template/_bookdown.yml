@@ -1,0 +1,1 @@
+rmd_files: ["index.Rmd", "Chapters/01-intro.Rmd", "Chapters/02-quality_control.Rmd", "Chapters/03-alignment_to_ref.Rmd", "Chapters/04-create_counts.Rmd", "Chapters/05-create_samples_design.Rmd", "Chapters/06-samples_exploration.Rmd", "Chapters/07-DEA.Rmd", "Chapters/08-anno.Rmd", "Chapters/09-print_deg.Rmd"]

@@ -1,0 +1,7 @@
+### Result of `r stringr::str_to_title(stringr::str_replace_all(test_for, pattern = "_", " "))`
+
+```{r Get_differentially_expressed_genes_test, eval=FALSE}
+tbl_res_condition <- deseqresult2tbl(res_condition)
+tbl_res_alma_ko_vs_ctrl$geneSymbol <- anno_df$gene_name[match(tbl_res_alma_ko_vs_ctrl$id, anno_df$gene_id)]
+tbl_res_alma_ko_vs_ctrl$description <- anns$description[match(tbl_res_alma_ko_vs_ctrl$id, anns$ensembl_gene_id)]
+```

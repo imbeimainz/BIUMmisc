@@ -1,0 +1,3 @@
+# QC of the sequencing samples
+
+An overview of the sequenced samples is obtained with the FastQC tool (available at http://www.bioinformatics.babraham.ac.uk/projects/fastqc/). Inspecting the produced results, the quality is in line with good datasets.

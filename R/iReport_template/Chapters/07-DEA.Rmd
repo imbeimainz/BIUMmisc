@@ -1,0 +1,50 @@
+# Differential Expression analysis 
+
+```{r set_fdr, results='hide', message=FALSE}
+FDR <- 0.05
+```
+
+We set the False Discovery Rate to `r FDR*100`%, and perform the following steps, we obtain the full set of Differentially Expressed genes, i.e. the ones that (regardless of the lfc) show robust significant differences in the expression among conditions.
+
+```{r perform_deseq, cache=TRUE}
+dds <- DESeq(dds)
+```
+
+
+### `r stringr::str_to_title(stringr::str_replace_all(test_for, pattern = "_", " "))`
+
+```{r retrieve_results}
+resultsNames(dds)
+res_condition <- results(dds, name = paste0("condition_", test_for),
+                         alpha = FDR)
+res_condition <- lfcShrink(dds, coef = paste0("condition_", test_for),
+                           type = "apeglm", res = res_condition) 
+
+summary(res_condition)
+plot_ma(res_condition, ylim = c(-2,2), title = paste("Result of",                                         stringr::str_to_title(
+  stringr::str_replace_all(test_for, pattern = "_", " "))), FDR = FDR)
+```
+
+
+```{r Get_differentially_expressed_genes, eval=FALSE}
+tbl_res_condition <- deseqresult2tbl(res_condition)
+tbl_res_alma_ko_vs_ctrl$geneSymbol <- anno_df$gene_name[match(tbl_res_alma_ko_vs_ctrl$id, anno_df$gene_id)]
+tbl_res_alma_ko_vs_ctrl$description <- anns$description[match(tbl_res_alma_ko_vs_ctrl$id, anns$ensembl_gene_id)]
+
+
+
+
+mart <- biomaRt:::useMart(biomart="ENSEMBL_MART_ENSEMBL", host="www.ensembl.org", dataset=organ_dataset)
+anns <- getBM( attributes = c("ensembl_gene_id", "external_gene_name", "description"), filters = "ensembl_gene_id", values = rownames(dds_marie), mart = mart)
+anns <- anns[match(rownames(dds_marie), anns[, 1]), ]
+anno_df <- pcaExplorer::get_annotation(dds_marie,"hsapiens_gene_ensembl","ensembl_gene_id")
+tbl_DEres_marie_inside_vs_outside <- deseqresult2DEgenes(res_marie_inside_vs_outside,FDR = FDR)
+tbl_DEres_marie_inside_vs_outside$geneSymbol <- anno_df$gene_name[match(tbl_DEres_marie_inside_vs_outside$id, anno_df$gene_id)]
+tbl_DEres_marie_inside_vs_outside$description <- anns$description[match(tbl_DEres_marie_inside_vs_outside$id, anns$ensembl_gene_id)]
+
+etbl_DEres_marie_inside_vs_outside <- tbl_DEres_marie_inside_vs_outside
+etbl_DEres_marie_inside_vs_outside$id <- ideal:::createLinkENS(etbl_DEres_marie_inside_vs_outside$id, species = "Homo_sapiens")
+etbl_DEres_marie_inside_vs_outside$geneSymbol <- ideal:::createLinkGeneSymbol(etbl_DEres_marie_inside_vs_outside$geneSymbol)
+mybuttons <- c('copy', 'csv', 'excel', 'pdf', 'print')
+datatable(etbl_DEres_marie_inside_vs_outside,caption = "petridish_tumor_vs_primtum, DE genes",escape=F, extensions = 'Buttons', options = list(pageLength = 50,dom = 'Bfrtip',buttons = mybuttons))
+```

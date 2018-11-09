@@ -1,0 +1,22 @@
+# Overview and creation of the count table
+
+The available samples were reconstructed from the shared archive files. The raw `.fastq` files are available in compressed `.gz` format in the `_fastqFiles` folder. 
+
+The following samples are the relevant ones:
+
+```{r list_bam_files}
+list.files("_alignedData/",pattern="(h_).*.bam$")
+```
+
+Following the read mapping step, we proceeded working with `.bam` files. We processed them with the `featureCounts` function of the `Rsubread` package, using the annotation file we also used for supporting the alignment.
+
+```{r generateCounts, eval=FALSE}
+(bam_files <- list.files("_alignedData/",pattern="(h_).*.bam$",full.names=TRUE))
+fc_result <- Rsubread::featureCounts(files=bam_files, 
+                                     annot.ext=path_to_ref_genome,
+                                     isGTFAnnotationFile=TRUE,
+                                     nthreads=parallel::detectCores()/2, isPairedEnd=is_paired_end["paired-end"])
+
+save(fc_result,file="results/fc_result.RData")
+
+```

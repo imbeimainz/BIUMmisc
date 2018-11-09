@@ -1,0 +1,25 @@
+# Creation of the design matrix and sample info
+
+```{r, eval=FALSE}
+samplesDesign <- data.frame(
+  fastqfile = list.files("_fastqFiles",pattern = ".fastq.gz$", full.names = TRUE),
+  bamfile = list.files("_alignedData/",pattern = ".bam$", full.names = TRUE),
+  condition = c("control", "control", "ko_del", "ko_del", "ko_del"),
+  replNr = paste0("R",c(1,2,1,2,3)),
+  partner = "Alma",
+  stringsAsFactors = FALSE
+)
+
+samplesDesign$sampleID <- paste0(samplesDesign$condition,"_",samplesDesign$replNr)
+samplesDesign$sampleName <- samplesDesign$sampleID
+write.csv(samplesDesign, file = "data/samplesDesign.csv", row.names = FALSE)
+```
+
+```{r}
+load("results/fc_result.RData")
+samplesDesign <- read.csv("data/samplesDesign.csv")
+samplesDesign$bamfile <- gsub("X_alignedData.","",colnames(fc_result$counts))
+
+knitr::kable(samplesDesign)
+```
+

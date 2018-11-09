@@ -1,0 +1,6 @@
+fastqfile,bamfile,condition,replNr,partner,sampleID,sampleName
+_fastqFiles/Alma_1.fastq.gz,_alignedData//Alma_1_Aligned.out.bam,control,R1,Alma,control_R1,control_R1
+_fastqFiles/Alma_2.fastq.gz,_alignedData//Alma_2_Aligned.out.bam,control,R2,Alma,control_R2,control_R2
+_fastqFiles/Alma_3.fastq.gz,_alignedData//Alma_3_Aligned.out.bam,ko_del,R1,Alma,ko_del_R1,ko_del_R1
+_fastqFiles/Alma_4.fastq.gz,_alignedData//Alma_4_Aligned.out.bam,ko_del,R2,Alma,ko_del_R2,ko_del_R2
+_fastqFiles/Alma_5.fastq.gz,_alignedData//Alma_5_Aligned.out.bam,ko_del,R3,Alma,ko_del_R3,ko_del_R3

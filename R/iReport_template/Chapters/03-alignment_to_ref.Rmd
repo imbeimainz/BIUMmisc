@@ -1,0 +1,5 @@
+# Alignment to the reference genome
+
+Short reads alignment was performed with the ENSEMBL `r stringr::str_sub(basename(path_to_ref_genome), 1, stringr::str_length(basename(path_to_ref_genome))-4)` chosen as the reference genome. The corresponding annotation (ENSEMBL v76) was also retrieved from the ENSEMBL FTP website http://www.ensembl.org/info/data/ftp/index.html.
+
+The STAR aligner ([version number]) was used to perform the mapping to the reference genome.
