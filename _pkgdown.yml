@@ -1,0 +1,9 @@
+destination: docs
+
+authors:
+  Federico Marini:
+    href: https://federicomarini.github.io
+
+template:
+  params:
+    bootswatch: cosmo
