@@ -3,7 +3,7 @@ Title: A collection of functions and scripts commonly used by the
     BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI
 Version: 0.1.0
 Description: This is a collection of functions and scripts commonly used by the 
-    BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI
+    BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI.
 Authors@R:
     c(
         person(
@@ -28,6 +28,8 @@ URL: https://github.com/imbeimainz/BIUMmisc
 BugReports: https://github.com/imbeimainz/BIUMmisc/issues
 Encoding: UTF-8
 Imports: 
+    rstudioapi,
+    sessioninfo,
     stringr
 Suggests: 
     knitr,
