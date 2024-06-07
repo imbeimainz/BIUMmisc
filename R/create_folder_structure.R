@@ -16,9 +16,12 @@ create_folder_structure <- function(rootname=paste0(Sys.Date(),"_newproject_RENA
   dir.create(file.path(rootname,"_logs"))
   dir.create(file.path(rootname,"_report"))
   dir.create(file.path(rootname,"_qc"))
+  dir.create(file.path(rootname,"_quants"))
   dir.create(file.path(rootname,"_counts"))
   dir.create(file.path(rootname,"_output"))
   dir.create(file.path(rootname,"_tempFiles"))
 
   message("Created folder structure for",rootname,". \nPlease rename the folder if necessary\n")
+
+  invisible(rootname)
 }
