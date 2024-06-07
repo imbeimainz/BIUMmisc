@@ -2,7 +2,7 @@
 #'
 #' @param rootname Character string, corresponding to the name of the main folder
 #' to be created. Should ideally follow this schema:
-#' [person_identifier]_[cooperation_partner_name]_[project_related_keyword]
+#' `[person_identifier]_[cooperation_partner_name]_[project_related_keyword]`
 #'
 #' @return Creates the designed folder structure in the desired location
 #' @export

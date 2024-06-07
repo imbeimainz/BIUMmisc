@@ -1,12 +1,13 @@
 #' Title
 #'
-#' @param to_file
-#' @param out_file
+#' @param to_file todo
+#' @param out_file todo
 #'
-#' @return
+#' @return todo
 #' @export
 #'
 #' @examples
+#' # todo
 sessioninfo_extra <- function(to_file = TRUE, out_file = NULL) {
   # run sessioninfo::session_info
   si <- sessioninfo::session_info()

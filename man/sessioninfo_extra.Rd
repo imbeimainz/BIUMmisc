@@ -7,8 +7,16 @@
 sessioninfo_extra(to_file = TRUE, out_file = NULL)
 }
 \arguments{
-\item{out_file}{}
+\item{to_file}{todo}
+
+\item{out_file}{todo}
+}
+\value{
+todo
 }
 \description{
 Title
+}
+\examples{
+# todo
 }
