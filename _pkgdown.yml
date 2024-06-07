@@ -5,5 +5,5 @@ authors:
     href: https://federicomarini.github.io
 
 template:
-  params:
-    bootswatch: cosmo
+  bootstrap: 5
+  bootswatch: lumen
