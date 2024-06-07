@@ -1,17 +1,38 @@
 Package: BIUMmisc
-Title: A Collection Of Functions And Scripts Commonly Used By The BIUM-MZ Core Facility
-Version: 0.0.0.9000
+Title: A collection of functions and scripts commonly used by the 
+    BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI
+Version: 0.1.0
 Description: This is a collection of functions and scripts commonly used by the 
-    BIUM-MZ Core Facility
-Authors@R: c(person("Federico", "Marini", , "marinif@uni-mainz.de", c("aut", "cre")),
-    person("Franziska", "Haertner", , "f.haertner@uni-mainz.de", c("aut")))
-Maintainer: Federico Marini <marinif@uni-mainz.de>
+    BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI
+Authors@R:
+    c(
+        person(
+            given = "a1", family = "a2", role = c("aut"), 
+            email = "ab@c.d", comment = c(ORCID = "0000-0001-0002-0003")
+        ),
+        person(
+            given = "a1", family = "a2", role = c("aut"), 
+            email = "ab@c.d", comment = c(ORCID = "0000-0001-0002-0003")
+        ),
+        person(
+            given = "a1", family = "a2", role = c("aut"), 
+            email = "ab@c.d", comment = c(ORCID = "0000-0001-0002-0003")
+        ),
+        person(
+            given = "Federico", family = "Marini", role = c("aut", "cre"), 
+            email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
+        )
+    )
 License: MIT + file LICENSE
-URL: https://github.com/IMBEIbioinformatics/BIUMmisc
-BugReports: https://github.com/IMBEIbioinformatics/BIUMmisc/issues
+URL: https://github.com/imbeimainz/BIUMmisc
+BugReports: https://github.com/imbeimainz/BIUMmisc/issues
 Encoding: UTF-8
-LazyData: true
-ByteCompile: true
-RoxygenNote: 6.1.1
 Imports: 
     stringr
+Suggests: 
+    knitr,
+    rmarkdown
+RoxygenNote: 7.3.1
+ByteCompile: true
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
