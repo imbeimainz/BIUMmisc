@@ -4,13 +4,12 @@
 \alias{create_folder_structure}
 \title{Create folder structure}
 \usage{
-create_folder_structure(rootname = paste0(Sys.Date(),
-  "_newproject_RENAME_ME"))
+create_folder_structure(rootname = paste0(Sys.Date(), "_newproject_RENAME_ME"))
 }
 \arguments{
 \item{rootname}{Character string, corresponding to the name of the main folder
 to be created. Should ideally follow this schema:
-[person_identifier]_[cooperation_partner_name]_[project_related_keyword]}
+\link{person_identifier}\emph{\link{cooperation_partner_name}}\link{project_related_keyword}}
 }
 \value{
 Creates the designed folder structure in the desired location
