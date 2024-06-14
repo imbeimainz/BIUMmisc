@@ -29,11 +29,13 @@ BugReports: https://github.com/imbeimainz/BIUMmisc/issues
 Encoding: UTF-8
 Imports: 
     rstudioapi,
+    writexl,
     sessioninfo,
     stringr
 Suggests: 
     knitr,
     rmarkdown,
+    readxl,
     testthat (>= 3.0.0)
 RoxygenNote: 7.3.1
 ByteCompile: true
