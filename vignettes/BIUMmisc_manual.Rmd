@@ -7,13 +7,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
-library(BIUMmisc)
+```{r}
+library("BIUMmisc")
 ```
+
+```{r}
+sessionInfo()
+sessioninfo::session_info()
+
+sessioninfo_extra()
+```
+
