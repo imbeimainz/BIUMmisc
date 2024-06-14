@@ -2,26 +2,44 @@
 #'
 #' @param to_file todo
 #' @param out_file todo
+#' @param add_date todo
 #'
 #' @return todo
+#'
+#' @importFrom sessioninfo session_info
+#' @importFrom rstudioapi getSourceEditorContext isAvailable
+#' @importFrom tools file_path_sans_ext
 #' @export
 #'
 #' @examples
 #' # todo
-sessioninfo_extra <- function(to_file = TRUE, out_file = NULL) {
+sessioninfo_extra <- function(to_file = TRUE, out_file = NULL, add_date = FALSE) {
   # run sessioninfo::session_info
   si <- sessioninfo::session_info()
 
-  currfile <- rstudioapi::getSourceEditorContext()$path
-  currwd <- dirname(currfile)
+  if(rstudioapi::isAvailable()) {
+    currfile <- rstudioapi::getSourceEditorContext()$path
+    currwd <- dirname(currfile)
+  } else {
+    currfile <- tempfile()
+    currwd <- tempdir()
+  }
+
   currfile_noext <- tools::file_path_sans_ext(basename(currfile))
 
   # print its content into a file, named in a clever meaningful way
   if (to_file) {
     if (is.null(out_file)) {
-      dest_file <- file.path(
-        currwd, paste0("sessioninfo_", Sys.Date(), "_", currfile_noext, ".txt")
-      )
+      if (add_date) {
+        dest_file <- file.path(
+          currwd, paste0("sessioninfoextra___", Sys.Date(), "_", currfile_noext, ".txt")
+        )
+      } else {
+        dest_file <- file.path(
+          currwd, paste0("sessioninfoextra___", currfile_noext, ".txt")
+        )
+      }
+
     } else {
       stopifnot(is.character(out_file))
       dest_file <- out_file
