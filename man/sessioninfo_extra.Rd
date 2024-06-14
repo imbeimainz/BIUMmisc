@@ -4,12 +4,14 @@
 \alias{sessioninfo_extra}
 \title{Title}
 \usage{
-sessioninfo_extra(to_file = TRUE, out_file = NULL)
+sessioninfo_extra(to_file = TRUE, out_file = NULL, add_date = FALSE)
 }
 \arguments{
 \item{to_file}{todo}
 
 \item{out_file}{todo}
+
+\item{add_date}{todo}
 }
 \value{
 todo
