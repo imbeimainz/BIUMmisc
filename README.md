@@ -4,6 +4,21 @@ A collection of R functions and scripts commonly used by the BIUM-MZ Core Facili
 
 You can browse the package contents at [https://imbeimainz.github.io/BIUMmisc/](https://imbeimainz.github.io/BIUMmisc/).
 
+## Installation
+
+You can install the development version of `BIUMmisc` from GitHub with:
+
+``` r
+library("remotes")
+remotes::install_github("imbeimainz/BIUMmisc")
+
+# this one installs also all the Suggested dependencies and builds the vignette
+remotes::install_github("imbeimainz/BIUMmisc",  
+                        dependencies = TRUE, 
+                        build_vignettes = TRUE)
+```
+
+
 ### Contributing guidelines
 
 - Place your function(s) in an R script named in a way that makes it easy to guess what's inside.
