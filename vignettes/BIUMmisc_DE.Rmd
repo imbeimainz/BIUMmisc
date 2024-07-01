@@ -1,0 +1,276 @@
+---
+title: "Using the BIUMmisc package for DE analyses"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BIUMmisc_DE}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library("BIUMmisc")
+```
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: `r Sys.Date()`
+
+```{r loadLibraries, results= "hide"}
+library("DESeq2")
+library("topGO")
+library("org.Hs.eg.db")
+# library("pcaExplorer")
+# library("ideal")
+library("GeneTonic")
+```
+
+# Before running DE steps
+
+1.	Load the expression data as `DESeqDataSet` object and create the associated annotation table.  
+    Similar to Basic Protocol 3, load first the required packages, and create the fundamental `DESeqDataSet` object to be used for the analysis (using ENSEMBL identifiers) - optionally, one can filter the set of lowly expressed genes as specified in the chunk below. Generate the corresponding annotation table for `dds_macrophage`, and store that as `anno_df`.
+
+```{r}
+# Loading the packages
+library("pcaExplorer")
+library("ideal")
+library("GeneTonic")
+
+# Loading the data
+library("macrophage")
+library("DESeq2")
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+
+# Changing the ids, removing the GENCODE-specific suffix
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage
+# Filtering low expressed features
+keep <- rowSums(counts(dds_macrophage) >= 10) >= 6 
+dds_macrophage <- dds_macrophage[keep, ]
+dds_macrophage
+```
+
+
+```{r}
+# Construct the annotation data frame
+library("org.Hs.eg.db")
+anno_df <- get_annotation_orgdb(dds = dds_macrophage,
+                                orgdb_species = "org.Hs.eg.db",
+                                idtype = "ENSEMBL")
+```
+
+```{r}
+library("biomaRt")
+mart <- useMart(biomart="ENSEMBL_MART_ENSEMBL", dataset="hsapiens_gene_ensembl")
+
+anns <- getBM(attributes = c("ensembl_gene_id", "external_gene_name", "description"), 
+              filters = "ensembl_gene_id",
+              # filters = "external_gene_name",
+              values = rownames(dds_macrophage), 
+              mart = mart)
+```
+
+
+```{r}
+plot_totcounts(dds_macrophage, group = "condition")
+```
+
+```{r}
+extended_anno <- fortify_annotations(anno_df_1 = anno_df,
+                                     anno_df_2 = anns,
+                                     dds = dds_macrophage)
+
+extended_anno$anno_df |> head()
+extended_anno$dds
+
+```
+
+
+```{r}
+tbl_normcounts <- deseq_normcounts_with_info(dds = dds_macrophage,
+                                             extended_anno_df = extended_anno$anno_df)
+
+tbl_TPMs <- deseq_tpm_with_info(dds = dds_macrophage,
+                                extended_anno_df = extended_anno$anno_df)
+```
+
+# Running the DE steps
+
+Creating the DE results themselves...
+
+
+```{r}
+dds_macrophage
+design(dds_macrophage)
+dds_macrophage <- DESeq(dds_macrophage)
+
+resultsNames(dds_macrophage)
+
+myresuSet_macrophage <- list()
+
+myresuSet_macrophage <- 
+  create_DEresults(resuSet = myresuSet_macrophage,
+                   dds_obj = dds_macrophage,
+                   contrast_name = "condition_IFNg_vs_naive", 
+                   FDR = 0.05,
+                   extended_anno_df = extended_anno$anno_df,
+                   species = "Homo_sapiens"
+                   )
+
+myresuSet_macrophage <- 
+  create_DEresults(resuSet = myresuSet_macrophage,
+                   dds_obj = dds_macrophage,
+                   contrast_name = "condition_IFNg_vs_naive", 
+                   lfc_threshold = 0.6,
+                   FDR = 0.05,
+                   extended_anno_df = extended_anno$anno_df,
+                   species = "Homo_sapiens",
+                   name_res_entry = "ifng-naive-lfc0.6"
+                   )
+
+myresuSet_macrophage <- 
+  create_DEresults(resuSet = myresuSet_macrophage,
+                   dds_obj = dds_macrophage,
+                   contrast_name = "condition_IFNg_vs_naive", 
+                   lfc_threshold = 1,
+                   FDR = 0.05,
+                   extended_anno_df = extended_anno$anno_df,
+                   species = "Homo_sapiens",
+                   name_res_entry = "ifng-naive-lfc1"
+                   )
+```
+
+```{r}
+genes_of_interest <- c(
+  "ENSG00000125347",   # IRF1
+  "ENSG00000110944",   # IL23A
+  "ENSG00000084636",   # COL16A1
+  "ENSG00000172399"    # MYOZ2
+)
+
+plot_ma(res_obj = myresuSet_macrophage$`ifng-naive-lfc1`$res_DESeq, 
+        intgenes = genes_of_interest)
+
+plot_volcano(res_obj = myresuSet_macrophage$`ifng-naive-lfc1`$res_DESeq,
+             ylim_up = 40,
+             intgenes = genes_of_interest)
+
+# TODO: adjust the y limit
+# TODO: add text ready to be ggplotlified?
+```
+
+# After the DE steps: functional enrichment
+
+```{r}
+extended_anno_df <- extended_anno$anno_df
+expressedInAssay <- (rowSums(assay(dds_macrophage))>0)
+geneUniverseExprENS <- rownames(dds_macrophage)[expressedInAssay]
+geneUniverseExpr <- extended_anno_df$gene_name[match(geneUniverseExprENS, extended_anno_df$gene_id)]
+```
+
+We iterate on all contrasts in the `myresuSet` object
+
+```{r topgorun, results="hide", cache=TRUE}
+for(i in names(myresuSet_macrophage)) {
+  message(i)
+  if(nrow(myresuSet_macrophage[[i]][["tbl_res_DE"]]) > 0) {
+  myresuSet_macrophage[[i]][["topGO_tbl"]] <- 
+    topGOtable(DEgenes = myresuSet_macrophage[[i]][["tbl_res_DE"]]$gene_name, 
+               BGgenes = geneUniverseExpr, 
+               ontology = "BP",
+               geneID = "symbol",
+               addGeneToTerms=TRUE, 
+               topTablerows = 500,
+               mapping = "org.Hs.eg.db")
+  }
+}
+
+```
+
+
+```{r cluprofload}
+library("clusterProfiler")
+```
+
+```{r clupro, cache = TRUE}
+for(i in names(myresuSet_macrophage)) {
+  message(i)
+  if(nrow(myresuSet_macrophage[[i]][["tbl_res_DE"]]) > 0) {
+    myresuSet_macrophage[[i]][["clupro_tbl"]] <- 
+      enrichGO(
+        gene = myresuSet_macrophage[[i]][["tbl_res_DE"]]$gene_name,
+        universe      = geneUniverseExpr,
+        keyType       = "SYMBOL",
+        OrgDb         = org.Hs.eg.db,
+        ont           = "BP",
+        pAdjustMethod = "BH",
+        pvalueCutoff  = 0.01,
+        qvalueCutoff  = 0.05,
+        readable      = FALSE)
+  }
+}
+
+```
+
+# Wrapping up a DE report
+
+transforming this into a gtl
+
+
+```{r}
+gtl_macs_ifng_naive <- resuset_to_gtl(myresuSet_macrophage, 
+                                      result_name = "ifng-naive-lfc0.6",
+                                      dds = dds_macrophage,
+                                      anno_df = extended_anno_df)
+
+describe_gtl(gtl_macs_ifng_naive)
+
+vst_macrophage <- vst(dds_macrophage)
+gs_heatmap(se = vst_macrophage,
+           gtl = gtl_macs_ifng_naive,
+           geneset_id = "GO:0034341",
+           cluster_columns = TRUE,
+           cluster_rows = TRUE,
+           anno_col_info = "condition"
+)
+
+signature_volcano(gtl = gtl_macs_ifng_naive,
+                  geneset_id = "GO:0034341",
+                  FDR = 0.05
+)
+
+gs_scoresheat(
+  mat = gs_scores(
+    se = vst_macrophage,
+    gtl = gtl_macs_ifng_naive),
+  n_gs = 30
+)
+```
+
+
+exporting them all
+
+```{r}
+exportr(myresuSet_macrophage,
+        out_file_prefix = "fedetest", out_folder = "dirtest")
+```
+
+
+
+# Session information {-}
+
+```{r}
+BiocManager::version()
+sessionInfo()
+```
+
+# References {-}
+
+
