@@ -182,6 +182,109 @@ dds_gencode_to_ensembl <- function(dds) {
 
 
 
+#' Fortify different set of annotations
+#'
+#' @param anno_df_1 A data.frame object, corresponding to the first annotation
+#' table
+#' @param anno_df_2 A data.frame object, corresponding to the second annotation
+#' table
+#' @param id_1 Character string, specifying which column in the first table is
+#' to be used as identifier (defaults to `gene_id`)
+#' @param id_2 Character string, specifying which column in the second table is
+#' to be used as identifier (defaults to `ensembl_gene_id`, for biomaRt-like
+#' objects)
+#' @param gene_name_1 Character string, specifying which column in the first
+#' table is to be used as gene name (defaults to `gene_name`)
+#' @param gene_name_2 Character string, specifying which column in the second
+#' table is to be used as identifier (defaults to `external_gene_name`, again
+#' as could be taken out e.g. from biomaRt)
+#' @param dds A DESeqDataset object
+#' @param verbose Logical, controlling the verbosity level of the function
+#'
+#' @return A list, including the fortified annotation data frame (in the
+#' `anno_df` element), and (if provided as input) a dds object (in the `dds`
+#' object) with the information stored in the `rowData` slot.
+#'
+#' @export
+#'
+#' @importFrom SummarizedExperiment rowData rowData<-
+#'
+#' @examples
+#' # TODO
+fortify_annotations <- function(anno_df_1,
+                                anno_df_2,
+                                id_1 = "gene_id",
+                                id_2 = "ensembl_gene_id",
+                                gene_name_1 = "gene_name",
+                                gene_name_2 = "external_gene_name",
+                                dds = NULL,
+                                verbose = TRUE) {
+  stopifnot(id_1 %in% colnames(anno_df_1))
+  stopifnot(id_2 %in% colnames(anno_df_2))
+  stopifnot(gene_name_1 %in% colnames(anno_df_1))
+  stopifnot(gene_name_2 %in% colnames(anno_df_2))
+
+  # anno_df_1 - normally taken via orgDb annotations
+  # anno_df_2 - usually taken via biomaRt
+  merged_anno <- merge.data.frame(
+    anno_df_1, anno_df_2,
+    by.x = id_1, by.y = id_2,
+    all.x = TRUE
+  )
+  rownames(merged_anno) <- anno_df_1[[id_1]]
+
+  na_names_1 <- sum(is.na(merged_anno[[gene_name_1]]))
+  na_names_2 <- sum(is.na(merged_anno[[gene_name_2]]))
+
+  if (verbose) {
+    message("Found ", na_names_1, " features with value NA in column ", gene_name_1, " (anno_df_1)")
+    message("Found ", na_names_2, " features with value NA in column ", gene_name_2, " (anno_df_2)")
+  }
+
+  if (any(c(na_names_1, na_names_2) > 0)) {
+    if (verbose)
+      message("Trying to resolve missing info in ", gene_name_1,
+              " (anno_df_1) with info from ", gene_name_2, " (anno_df_2)...")
+    merged_anno$resolved_gene_name <- merged_anno[[gene_name_1]]
+    ids_with_missing_names <- rownames(anno_df_1)[is.na(merged_anno[[gene_name_1]])]
+    merged_anno[ids_with_missing_names, "resolved_gene_name"] <-
+      merged_anno[ids_with_missing_names, gene_name_2]
+    na_names_resolved <- sum(is.na(merged_anno[["resolved_gene_name"]]))
+    if (verbose) {
+      message("Found ", na_names_resolved, " features with value NA in the resolved gene name column")
+      if (na_names_resolved > 0)
+        message("You might want to add/edit additionally this annotation table...")
+    }
+
+    merged_anno[[gene_name_1]] <- merged_anno$resolved_gene_name
+    merged_anno$resolved_gene_name <- NULL
+  }
+
+  # merged_anno
+
+  if (!is.null(dds)) {
+    # update the rowData in a matched dds dataset object
+    anno_for_dds <- merged_anno
+    # drop the "duplicated" gene name column, gene_name_2
+    anno_for_dds[[gene_name_2]] <- NULL
+    # re-sort rows if needed to match to the object to extend
+    anno_for_dds <- anno_for_dds[match(rownames(dds), rownames(anno_for_dds)), ]
+    colnames(anno_for_dds) <- paste0("anno_", colnames(anno_for_dds))
+    rowData(dds) <- cbind(rowData(dds), anno_for_dds)
+
+    message("Updated rowData slot of the dds object by adding columns: ",
+            paste0(colnames(anno_for_dds), collapse = ", "))
+  }
+
+  return(
+    list(
+      anno_df = merged_anno,
+      dds = dds
+    )
+  )
+}
+
+
 
 #' Normalized counts table, with extra info
 #'
