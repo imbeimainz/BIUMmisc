@@ -1,6 +1,7 @@
 pandoc: 3.1.11
 pkgdown: 2.0.9.9000
-pkgdown_sha: 3d24d9cef8ebe9d10bc1460cb837a934ab1ca7f4
+pkgdown_sha: a98c134518cc9f5006f9ce17d4b6fc29ea37b56b
 articles:
+  BIUMmisc_DE: BIUMmisc_DE.html
   BIUMmisc_manual: BIUMmisc_manual.html
-last_built: 2024-06-14T17:10Z
+last_built: 2024-07-01T12:22Z
