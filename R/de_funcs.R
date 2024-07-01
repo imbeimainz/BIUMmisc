@@ -176,8 +176,26 @@ overview_detected_genes <- function(dds) {
 
 
 
+#' Gencode to ENSEMBL
+#'
+#' @param dds A DESeqDataSet object
+#'
+#' @return A DESeqDataSet object, with updated row names
+#'
+#' @export
+#'
+#' @examples
+#' # TODO
 dds_gencode_to_ensembl <- function(dds) {
+  gencode_ids <- rownames(dds)
 
+  ensembl_ids <- gsub("\\..*", "", gencode_ids)
+
+  rowData(dds)[["gencode_id"]] <- gencode_ids
+  rowData(dds)[["gene_id"]] <- ensembl_ids
+  rownames(dds) <- ensembl_ids
+
+  return(dds)
 }
 
 
