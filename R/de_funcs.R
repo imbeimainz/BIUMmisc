@@ -182,3 +182,88 @@ dds_gencode_to_ensembl <- function(dds) {
 
 
 
+
+#' Normalized counts table, with extra info
+#'
+#' @param dds A DESeqDataSet object
+#' @param extended_anno_df An annotation data.frame with the following columns:
+#' `gene_id` and `gene_name` (mandatory), and `description` (optional, can be
+#' retrieved via biomaRt)
+#'
+#' @return A data.frame object, with the normalized counts and some additional
+#' info on the features at hand
+#' @export
+#'
+#' @importFrom DESeq2 estimateSizeFactors counts
+#'
+#' @examples
+#' # TODO
+#' # ext_anno <- merge(anno_df, anns, by.x = "gene_id", by.y = "ensembl_gene_id")
+#'
+#' # ...
+#' # writexl::write_xlsx(obj, "exceltable.xlsx")
+deseq_normcounts_with_info <- function(dds,
+                                       extended_anno_df) {
+  norm_counts_tbl <- as.data.frame(
+    counts(estimateSizeFactors(dds), normalized = TRUE)
+  )
+  norm_counts_tbl$gene_id <- rownames(norm_counts_tbl)
+  norm_counts_tbl$gene_name <-
+    extended_anno_df$gene_name[match(rownames(norm_counts_tbl),extended_anno_df$gene_id)]
+  # anns2 <- anns[match(norm_counts_tbl$id, anns$ensembl_gene_id), ]
+
+  if ("description" %in% colnames(extended_anno_df)) {
+    norm_counts_tbl$description <-
+      extended_anno_df$description[match(rownames(norm_counts_tbl),extended_anno_df$gene_id)]
+  } else {
+    message("No column named `description` provided in the extended_anno_df object...")
+  }
+
+  return(norm_counts_tbl)
+}
+
+# combineTogether <- function(normCounts,resuTable,anns) {
+  # combinedCountsAndRes <- inner_join(resuTable,normCounts,by="id")
+  # anns2 <- anns[match(combinedCountsAndRes$id, anns$ensembl_gene_id), ]
+  # combinedCountsAndRes$Description <- anns2$description
+  # return(combinedCountsAndRes)
+# }
+
+
+
+
+#' TPM table with extended information
+#'
+#' @inheritParams deseq_normcounts_with_info
+#'
+#' @return A data.frame object, with the TPM values and some additional
+#' info on the features at hand
+#'
+#' @export
+#'
+#' @importFrom SummarizedExperiment assayNames assay
+#'
+#' @examples
+#' # TODO
+deseq_tpm_with_info <- function(dds,
+                                extended_anno_df) {
+
+  stopifnot("abundance" %in% assayNames(dds))
+
+  tpm_tbl <- as.data.frame(assay(dds, "abundance"))
+
+  tpm_tbl$gene_id <- rownames(tpm_tbl)
+  tpm_tbl$gene_name <-
+    extended_anno_df$gene_name[match(rownames(tpm_tbl),extended_anno_df$gene_id)]
+  # anns2 <- anns[match(norm_counts_tbl$id, anns$ensembl_gene_id), ]
+
+  if ("description" %in% colnames(extended_anno_df)) {
+    tpm_tbl$description <-
+      extended_anno_df$description[match(rownames(tpm_tbl),extended_anno_df$gene_id)]
+  } else {
+    message("No column named `description` provided in the extended_anno_df object...")
+  }
+
+  return(tpm_tbl)
+}
+
