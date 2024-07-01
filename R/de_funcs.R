@@ -285,6 +285,124 @@ fortify_annotations <- function(anno_df_1,
 }
 
 
+#' Export the components of a resuSet object
+#'
+#' Export the components of a resuSet object
+#'
+#' @param resuSet A list, provided in the format expected by the resuSet
+#' specifications
+#' @param out_file_prefix String character, to be used to prepend all exported files.
+#' Defaults to "out_SET", but can be meaningfully chosen to match the set of
+#' results it refers to.
+#' @param out_folder String character, specifying in which folder such tabular
+#' outputs will be generated. Defaults to "_output", but can also be called "."
+#' to specify the current directory.
+#'
+#' @return Invisible NULL if no errors are encountered
+#'
+#' @export
+#'
+#' @examples
+#' # TODO
+exportr <- function(resuSet,
+                    out_file_prefix = "out_SET",
+                    out_folder = "_output") {
+  if (!dir.exists(out_folder))
+    dir.create(out_folder)
+
+  message("Exporting the whole set for ", out_file_prefix)
+  for(i in names(resuSet)) {
+    message("    ", out_file_prefix, "  ---  " ,i)
+    curset <- resuSet[[i]]
+
+    if(!is.null(curset$tbl_res_all)) {
+      message("        Exporting results from DESeq... ")
+      export_deseq_file <- paste0(out_file_prefix, "_", i, "_tbl_res_DESeq.xlsx")
+      export_deseq_fullpath <- file.path(out_folder, export_deseq_file)
+      writexl::write_xlsx(curset$tbl_res_all, export_deseq_fullpath)
+      message("          ", export_deseq_fullpath)
+    }
+    if(!is.null(curset$topGO_tbl)) {
+      message("        Exporting results from topGO... ")
+      export_topgo_file <- paste0(out_file_prefix, "_", i, "_tbl_topGOres.xlsx")
+      export_topgo_fullpath <- file.path(out_folder, export_topgo_file)
+      writexl::write_xlsx(curset$topGO_tbl, export_topgo_fullpath)
+      message("          ", export_topgo_fullpath)
+    }
+    if(!is.null(curset$clupro_tbl)) {
+      message("        Exporting results from clusterProfiler... ")
+      export_clupro_file <- paste0(out_file_prefix, "_", i, "_tbl_cluPro.xlsx")
+      export_clupro_fullpath <- file.path(out_folder, export_clupro_file)
+      writexl::write_xlsx(curset$clupro_tbl@result, export_clupro_fullpath)
+      message("          ", export_clupro_fullpath)
+    }
+    if(!is.null(curset$reactome_tbl)) {
+      message("        Exporting results from reactomePA ")
+      export_reactome_file <- paste0(out_file_prefix, "_", i, "_tbl_reactome.xlsx")
+      export_reactome_fullpath <- file.path(out_folder, export_reactome_file)
+      writexl::write_xlsx(curset$reactome_tbl@result, export_reactome_fullpath)
+      message("          ", export_reactome_fullpath)
+    }
+  }
+
+  invisible(NULL)
+}
+
+
+
+#' Convert a resuSet into a GeneTonicList
+#'
+#' Convert a resuSet into a GeneTonicList object
+#'
+#' @param resuSet A list, provided in the format expected by the resuSet
+#' specifications
+#' @param result_name A character, specifying for which result name in the resuSet
+#' object the conversion should be performed
+#' @param which_enrich Character string, specifying which enrichment results to
+#' use. Currently defaults to "topGO_tbl", will be extended to other formats -
+#' TODO
+#' @param dds A DESeqDataset object, meaningfully related/matched to the
+#' resuSet object.
+#' @param anno_df A data.frame as specified in the requirements expected by
+#' GeneTonic, i.e. where at least the columns `gene_id` and `gene_name` are
+#' specified
+#'
+#' @return A GeneTonicList object, ready to be provided to the GeneTonic
+#' functions
+#'
+#' @export
+#'
+#' @importFrom GeneTonic GeneTonicList get_aggrscores shake_topGOtableResult
+#'
+#' @examples
+#' # TODO
+#'
+resuset_to_gtl <- function(resuSet,
+                           result_name,
+                           which_enrich = "topGO_tbl",
+                           dds,
+                           anno_df) {
+  dds_gtl <- dds
+  anno_df_gtl <- anno_df
+  res_de_gtl <- resuSet[[result_name]][["res_DESeq"]]
+
+  # TODO: optionally select which enrichment result to export
+
+  res_enrich_gtl <- GeneTonic::get_aggrscores(
+    GeneTonic::shake_topGOtableResult(resuSet[[result_name]][[which_enrich]]),
+    resuSet[[result_name]][["res_DESeq"]],
+    annotation_obj = anno_df_gtl)
+
+  gtl_assembled <- GeneTonicList(
+    dds = dds_gtl,
+    res_de = res_de_gtl,
+    res_enrich = res_enrich_gtl,
+    annotation_obj = anno_df_gtl
+  )
+
+  return(gtl_assembled)
+}
+
 
 #' Normalized counts table, with extra info
 #'
