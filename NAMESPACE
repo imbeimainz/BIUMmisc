@@ -3,6 +3,7 @@
 export(count_up_till_death)
 export(create_DEresults)
 export(create_folder_structure)
+export(dds_gencode_to_ensembl)
 export(deseq_normcounts_with_info)
 export(deseq_tpm_with_info)
 export(exportr)
