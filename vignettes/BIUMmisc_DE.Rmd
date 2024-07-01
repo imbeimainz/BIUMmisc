@@ -48,9 +48,18 @@ library("DESeq2")
 data("gse", package = "macrophage")
 dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
 
+
+# one can also now use
+
+dds_macrophage <- dds_gencode_to_ensembl(dds_macrophage)
+
+
 # Changing the ids, removing the GENCODE-specific suffix
-rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
-dds_macrophage
+# rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+# dds_macrophage
+
+
+
 # Filtering low expressed features
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6 
 dds_macrophage <- dds_macrophage[keep, ]
@@ -267,7 +276,7 @@ exportr(myresuSet_macrophage,
 # Session information {-}
 
 ```{r}
-BiocManager::version()
+# BiocManager::version()
 sessionInfo()
 ```
 
