@@ -126,3 +126,59 @@ create_DEresults <- function(resuSet = NULL,
 }
 
 
+#' Plot total number of counts
+#'
+#' @param dds A DESeqDataset object
+#' @param group Character string, indicating one of the names of the columns in
+#' the `colData` slot of `dds`
+#'
+#' @return A ggplot object
+#'
+#' @export
+#'
+#' @importFrom ggplot2 ggplot aes geom_bar theme theme_bw coord_flip
+#' element_text labs
+#' @importFrom DESeq2 counts
+#'
+#' @examples
+#' # TODO
+plot_totcounts <- function(dds, group) {
+
+  myd <- data.frame(
+    counts = colSums(counts(dds)),
+    group = dds[[group]],
+    sample = colnames(dds))
+
+  p <- ggplot(myd,
+              aes(x = sample,
+                  weight = counts,
+                  fill = group)) +
+    geom_bar() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    labs(
+      x = "Sample",
+      y = "Total sum of raw counts",
+      title = "Raw counts distribution over samples",
+      subtitle = paste0("grouped by `", group, "`")
+    ) +
+    theme_bw() +
+    coord_flip()
+
+  return(p)
+}
+
+
+overview_detected_genes <- function(dds) {
+  # anka's nice one with different thresholds
+
+
+}
+
+
+
+dds_gencode_to_ensembl <- function(dds) {
+
+}
+
+
+
