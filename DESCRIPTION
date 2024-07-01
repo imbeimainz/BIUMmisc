@@ -31,10 +31,24 @@ Imports:
     rstudioapi,
     writexl,
     sessioninfo,
+    SummarizedExperiment,
+    DESeq2,
+    GeneTonic,
+    mosdef,
+    DT,
+    ggplot2,
     stringr
 Suggests: 
     knitr,
     rmarkdown,
+    apeglm,
+    pcaExplorer,
+    ideal,
+    biomaRt,
+    clusterProfiler,
+    macrophage,
+    org.Hs.eg.db,
+    topGO,
     readxl,
     testthat (>= 3.0.0)
 RoxygenNote: 7.3.1
