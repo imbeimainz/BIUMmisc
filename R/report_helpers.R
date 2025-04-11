@@ -92,3 +92,29 @@ matmetmaker_RNAseqbulk <- function(dds_object,
 
 }
 
+
+
+
+#' Title
+#'
+#' @param sce_object
+#' @param template_text
+#' @param packages
+#' @param de_framework
+#' @param add_citations
+#'
+#' @returns
+#'
+#' @importFrom glue glue
+#'
+#' @export
+#'
+#' @examples
+matmetmaker_RNAseqsinglecell <- function(sce_object,
+                                         template_text = NULL,
+                                         packages = NULL,
+                                         de_framework = "muscat",
+                                         add_citations = TRUE) {
+  # TODO TODO TODO
+}
+
