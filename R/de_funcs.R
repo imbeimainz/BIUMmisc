@@ -529,3 +529,42 @@ create_link_reactome <- function(val) {
           val)
 }
 
+
+#' Beautifying an enrichment table with GO identifiers in it
+#'
+#' @param enrich_tbl A data frame tabular representation of the enrichment results
+#' @param GO_id_column Character string, specifying which column contains the
+#' GO term identifier
+#'
+#' @returns A data.frame, ready to be passed on to
+#' `DT::datatable(..., escape = FALSE)`, to render the buttons correctly
+#' @export
+#'
+#' @examples
+#' ## TODO
+beautify_GO_table <- function(enrich_tbl, GO_id_column = "GO.ID") {
+  rownames(enrich_tbl) <- enrich_tbl[[GO_id_column]]
+  enrich_tbl[[GO_id_column]] <- mosdef::create_link_GO(enrich_tbl[[GO_id_column]])
+  return(enrich_tbl)
+}
+
+
+#' Beautifying an enrichment table with Reactome identifiers in it
+#'
+#' @param enrich_tbl A data frame tabular representation of the enrichment results
+#' @param Reactome_id_column Character string, specifying which column contains the
+#' Reactome identifier
+#'
+#' @returns A data.frame, ready to be passed on to
+#' `DT::datatable(..., escape = FALSE)`, to render the buttons correctly
+#' @export
+#'
+#' @examples
+#' ## TODO
+beautify_Reactome_table <- function(enrich_tbl, Reactome_id_column = "ID") {
+  rownames(enrich_tbl) <- enrich_tbl[[Reactome_id_column]]
+  enrich_tbl[[Reactome_id_column]] <- create_link_reactome(enrich_tbl[[Reactome_id_column]])
+  return(enrich_tbl)
+}
+
+
