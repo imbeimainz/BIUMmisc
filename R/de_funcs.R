@@ -506,3 +506,26 @@ deseq_tpm_with_info <- function(dds,
   return(tpm_tbl)
 }
 
+
+
+#' Create a link to Reactome
+#'
+#' @param val Character string, specifying the identifier as in the Reactome
+#' database
+#'
+#' @returns A string with the html code to create a button linking to the
+#' specified identifier
+#' @export
+#'
+#' @examples
+#' # TODO: possibly this could and should live within mosdef...
+#'
+#' # https://reactome.org/content/detail/R-HSA-69239
+#' create_link_reactome("R-HSA-69239")
+create_link_reactome <- function(val) {
+  sprintf('<a href="https://reactome.org/content/detail/%s" target="_blank" class="btn btn-primary" style = "%s">%s</a>',
+          val,
+          mosdef:::.actionbutton_biocstyle,
+          val)
+}
+
