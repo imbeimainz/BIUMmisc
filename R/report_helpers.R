@@ -19,6 +19,9 @@
 #'
 #' @returns A character fairly long string, which can be used to draft quickly
 #' the M&M section
+#'
+#' @importFrom glue glue
+#'
 #' @export
 #'
 #' @examples
