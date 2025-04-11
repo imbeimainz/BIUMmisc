@@ -36,6 +36,7 @@ Imports:
     GeneTonic,
     mosdef,
     DT,
+    glue,
     ggplot2,
     stringr
 Suggests: 
