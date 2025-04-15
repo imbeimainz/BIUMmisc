@@ -111,21 +111,25 @@ matmetmaker_RNAseqbulk <- function(dds_object,
 
 
 
-#' Title
+#' Title TODO
 #'
-#' @param sce_object
-#' @param template_text
-#' @param packages
-#' @param de_framework
-#' @param add_citations
+#' TODO
 #'
-#' @returns
+#' @param sce_object TODO
+#' @param template_text TODO
+#' @param packages TODO
+#' @param de_framework TODO
+#' @param add_citations TODO
+#'
+#' @returns TODO
 #'
 #' @importFrom glue glue
+#' @importFrom utils packageVersion
 #'
 #' @export
 #'
 #' @examples
+#' # TODO
 matmetmaker_RNAseqsinglecell <- function(sce_object,
                                          template_text = NULL,
                                          packages = NULL,
