@@ -8,6 +8,7 @@ matmetmaker_RNAseqbulk(
   dds_object,
   template_text = NULL,
   packages = NULL,
+  FDRthreshold = NULL,
   de_framework = "DESeq2",
   add_citations = TRUE
 )
@@ -23,6 +24,10 @@ ideally live in separated files (one for each? one for type?)}
 
 \item{packages}{Character vector. Defaults to NULL. Specifies which packages
 would need to be captured, alongside the "standard" ones.}
+
+\item{FDRthreshold}{Numeric value, specifying a precise FDR value. If left
+unspecified (NULL by default) it searches for the value in the environment of
+the variable called \code{FDR}.}
 
 \item{de_framework}{Character string, defaults to "DESeq2"- if implemented in
 other frameworks we could use this to swap some behavior.}
