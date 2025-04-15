@@ -40,7 +40,7 @@ matmetmaker_RNAseqbulk <- function(dds_object,
   if(is.null(FDRthreshold)) {
     # try to pick it from the environment it is launched from
     if(exists("FDR")) {
-      FDRthreshold <- FDR
+      FDRthreshold <- get("FDR")
     } else {
       stop("Variable `FDR` not defined in the current environment!")
     }
