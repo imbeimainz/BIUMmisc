@@ -137,3 +137,13 @@ matmetmaker_RNAseqsinglecell <- function(sce_object,
   # TODO TODO TODO
 }
 
+
+#' @rdname mamma_bulk
+#' @export
+matmetmaker_RNAseqbulk <- mamma_bulk
+
+#' @rdname mamma_singlecell
+#' @export
+matmetmaker_RNAseqsinglecell <- mamma_singlecell
+
+
