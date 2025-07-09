@@ -30,12 +30,12 @@
 #'
 #' @examples
 #' # TODO
-matmetmaker_RNAseqbulk <- function(dds_object,
-                                   template_text = NULL,
-                                   packages = NULL,
-                                   FDRthreshold = NULL,
-                                   de_framework = "DESeq2",
-                                   add_citations = TRUE) {
+mamma_bulk <- function(dds_object,
+                       template_text = NULL,
+                       packages = NULL,
+                       FDRthreshold = NULL,
+                       de_framework = "DESeq2",
+                       add_citations = TRUE) {
 
   if(is.null(FDRthreshold)) {
     # try to pick it from the environment it is launched from
@@ -46,15 +46,14 @@ matmetmaker_RNAseqbulk <- function(dds_object,
     }
   }
 
-
   template_text <- paste0(
-    "Quality control on the sequencing data was performed with the FastQC tool (version 0.XX.YY [[CHANGEME]], https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). [[OPTIONAL:]] After preprocessing, the number of reads per sample ranged from XX million to YY million with a median of ZZ million.\n",
-    "[[if using Salmon]] Transcript abundance estimates were computed with Salmon [ADDCIT] (version {version_salmon}), with a [transcriptome index|combined transcriptome and genome index] generated from the {txome_info_source} reference (version {txome_info_version}), and subsequently summarized to gene level with the tximeta R package (version {version_tximeta}) [ADDCIT].\n",
-    "The exploration, modeling, and interpretation of the expression data follows the protocols defined by Ludt et al (2022), [cit: DOI:10.1002/cpz1.411]. [alt: All downstream analyses were performed in R... following ...[]].\n",
-    "Exploratory data analysis was performed with the pcaExplorer package (version {version_pcaExplorer}, [ADDCIT]). Principal Component Analysis plots were performed including the top XXX most variable genes.[[CHANGEME]]\n",
-    "Differential expression analysis was performed with DESeq2 package (version {version_DESeq2}) [ADDCIT], setting the false discovery rate (FDR) cutoff to {value_FDR}. Accurate estimation of the effect sizes (described as log2 fold change) was performed using the apeglm shrinkage estimator (version {version_apeglm}) [ADDCIT].\n",
-    "Further analyses included Gene Ontology pathway enrichment by the topGO (version {version_topGO}) | goseq (version {version_goseq}) | clusterProfiler (version {version_clusterProfiler}) packages [ADDCIT], setting all detected|expressed genes as background dataset, and were performed using the mosdef package (version {version_mosdef}) [ADDCIT]. ",
-    "The enrichment results were subsequently processed with the GeneTonic package (version {version_GeneTonic}) for visualization and summarizing [ADDCIT].\n",
+    "Quality control on the sequencing data was performed with the FastQC tool (version 0.XX.YY [[CHANGEMEIFNEEDED]], https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). [[OPTIONAL:]] After preprocessing, the number of reads per sample ranged from XX million to YY million with a median of ZZ million.\n",
+    "[[if using Salmon]] Transcript abundance estimates were computed with Salmon [CIT:10.1038/nmeth.4197] (version {version_salmon}), with a [transcriptome index|combined transcriptome and genome index] generated from the {txome_info_source} reference (version {txome_info_version}), and subsequently summarized to gene level with the tximeta R package (version {version_tximeta}) [CIT:10.1371/journal.pcbi.1007664].\n",
+    "The exploration, modeling, and interpretation of the expression data follows the protocols defined by Ludt et al (2022), [CIT:10.1002/cpz1.411]. [alt: All downstream analyses were performed in R... following ...[]].\n",
+    "Exploratory data analysis was performed with the pcaExplorer package (version {version_pcaExplorer}, [CIT:10.1186/s12859-019-2879-1 ]). Principal Component Analysis plots were performed including the top XXX most variable genes.[[CHANGEMEIFNEEDED]]\n",
+    "Differential expression analysis was performed with DESeq2 package (version {version_DESeq2}) [CIT:10.1186/s13059-014-0550-8 ], setting the false discovery rate (FDR) cutoff to {value_FDR}. Accurate estimation of the effect sizes (described as log2 fold change) was performed using the apeglm shrinkage estimator (version {version_apeglm}) [CIT:10.1093/bioinformatics/bty895 ].\n",
+    "Further analyses included Gene Ontology pathway enrichment by the topGO (version {version_topGO}) | goseq (version {version_goseq}) | clusterProfiler (version {version_clusterProfiler}) packages [CIT:10.1093/bioinformatics/btl140][CIT:10.1186/gb-2010-11-2-r14 ][CIT:10.1038/s41596-024-01020-z], setting all detected|expressed genes as background dataset, and were performed using the mosdef package (version {version_mosdef}) [ADDCIT] and the ideal package (version {version_ideal}) [CIT:10.1186/s12859-020-03819-5].",
+    "The enrichment results were subsequently processed with the GeneTonic package (version {version_GeneTonic}) for visualization and summarizing [CIT:10.1186/s12859-021-04461-5].\n",
     "Gene expression profiles were plotted as heatmaps, using color-coded [mean-centered|standardized Z scores for the] expression values, after [variance stabilizing transformation|regularized logarithm transformation]) to enable comparison across samples.",
     "",
     "",
