@@ -25,6 +25,7 @@
 #'
 #' @importFrom glue glue
 #' @importFrom utils packageVersion
+#' @importFrom cli cli_alert_info cli_alert_success
 #'
 #' @export
 #'
@@ -129,6 +130,7 @@ mamma_bulk <- function(dds_object,
 #'
 #' @importFrom glue glue
 #' @importFrom utils packageVersion
+#' @importFrom cli cli_alert_info cli_alert_success
 #'
 #' @export
 #'
