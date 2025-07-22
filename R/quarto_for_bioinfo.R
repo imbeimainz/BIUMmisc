@@ -104,3 +104,8 @@ create_bioinfo_html <- function(file_name = NULL,
 
 
 
+create_bioinfo_revealjs <- function() {
+
+
+
+}
