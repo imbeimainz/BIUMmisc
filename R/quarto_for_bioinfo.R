@@ -1,15 +1,27 @@
-#' Title
+#' Create a Quarto html report, Bioinfo-group styled
 #'
-#' @param file_name
-#' @param report_folder
-#' @param ext_name
+#' @param file_name Character string, the name of the file for the report -
+#' no need to specify the qmd extension.
+#' @param report_folder Character string, pointing to the folder where the
+#' report and its associated files should be created. Defaults to NULL, which
+#' falls back to the current working directory.
+#' A sensible value for this variable could the "vignettes", if used in the
+#' context of a package in development
+#' @param ext_name Character string, defaulting to "bioinfo-html". Other values
+#' (possibly in other functions) would be "bioinfo-revealjs" or similar...
+#' @param expose_aux_files Logical value, whether to expose&copy the auxiliary
+#' files (scss and bib) into the toplevel of the specified folder.
 #'
-#' @returns
+#' @returns Invisibly, the path to the created quarto source file for the report
+#'
 #' @export
 #'
 #' @importFrom cli cli_alert_info cli_alert_success cli_alert_warning
 #'
 #' @examples
+#' temp_folder <- tempdir()
+#' create_bioinfo_html(file_name = "myreport",
+#'                     report_folder = temp_folder)
 create_bioinfo_html <- function(file_name = NULL,
                                 report_folder = NULL,
                                 ext_name = "bioinfo-html",
@@ -25,7 +37,9 @@ create_bioinfo_html <- function(file_name = NULL,
   } else {
     if(!dir.exists(report_folder)) {
       dir.create(report_folder)
-      cli::cli_alert_info("Created report folder into ", report_folder)
+      cli::cli_alert_info(paste0("Created report folder into ", report_folder))
+    } else {
+      cli::cli_alert_info(paste0("Using report folder, ", report_folder))
     }
   }
 
@@ -35,7 +49,7 @@ create_bioinfo_html <- function(file_name = NULL,
   # check for existing _extensions directory
   if(!dir.exists(file.path(report_folder, "_extensions"))) {
     dir.create(file.path(report_folder, "_extensions"))
-    cli::cli_alert_info("Created '_extensions' folder into ", report_folder)
+    cli::cli_alert_info(paste0("Created '_extensions' folder into ", report_folder))
   }
 
   # create folder for the specific extension
@@ -71,8 +85,12 @@ create_bioinfo_html <- function(file_name = NULL,
               file.path(report_folder, "references.bib"))
     file.copy(file.path(report_folder, "_extensions", "bioinfo-html", "ummz_theme.scss"),
               file.path(report_folder, "ummz_theme.scss"))
-    cli::cli_alert_info("Copied auxiliary files into the toplevel report folder",
-                        "You might want to edit the corresponding lines in the yaml section")
+    cli::cli_alert_info(
+      paste0(
+        "Copied auxiliary files into the toplevel report folder.\n",
+        "You might want to edit the corresponding lines in the yaml section"
+      )
+    )
   }
 
 
@@ -80,7 +98,8 @@ create_bioinfo_html <- function(file_name = NULL,
   file.edit(file.path(report_folder, paste0(file_name, ".qmd")))
 
 
-  cli::cli_alert_success("Have fun with your report - available inside the folder", report_folder)
+  cli::cli_alert_success(
+    paste0("Have fun with your report - available inside the folder ", report_folder))
 }
 
 
