@@ -23,6 +23,8 @@ format:
     ## making links automatically open in a new window 
     link-external-newwindow: true
     # code-link: true ## does seem to interfere with the title... pity.
+    ## could embed also the source of the whole document!
+    # code-tools: true
     ## controls the aesthetics of the whole thing
     theme: 
     - cosmo
