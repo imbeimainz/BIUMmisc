@@ -1,0 +1,98 @@
+---
+title: >
+  Report title
+subtitle: >
+  Bioinformatics Group, IMBEI, University Medical Center Mainz
+author:
+- name: Name Surname
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz, Germany
+  email: yourmail@uni-mainz.de
+## add here more authors if needed - and do add the affiliation(s)
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+format:
+  html:
+    toc: true
+    ## for clarity but also for cross-referencing
+    number-sections: true
+    ## this option makes the report one single file easiest to share
+    embed-resources: true
+    ## choosing a nice font
+    mainfont: "Atkinson Hyperlegible"
+    # mainfont: "IBM Plex Sans"
+    ## making links automatically open in a new window 
+    link-external-newwindow: true
+    # code-link: true ## does seem to interfere with the title... pity.
+    ## controls the aesthetics of the whole thing
+    theme: 
+    - cosmo
+    ## if needed/desired: one can move that scss file and put it to toplevel
+    - _extensions/bioinfo-html/ummz_theme.scss
+editor_options: 
+  chunk_output_type: console
+## if needed/desired: one can move & rename that bib file and put it to toplevel
+bibliography: _extensions/bioinfo-html/references.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  error    = FALSE,
+  warning  = FALSE,
+  eval     = TRUE,
+  message  = FALSE
+)
+```
+
+# My first section {#sec-firstsectionlabel}
+
+The content of that section
+
+# My second section {#sec-secondsectionlabel}
+
+The text for that, and a reference inside the document to @sec-firstsectionlabel
+
+Something looking like `code`.
+
+## A subsection
+
+In there, it is easy to refer to Anka's work [@Ludt2022]
+
+# TO DO
+
+Some code chunks and referring to their outputs nicely
+
+```{r}
+#| label: fig-myplot
+#| fig-cap: "Plot caption"
+
+plot(cars)
+```
+
+For example, see @fig-myplot.
+
+```{r}
+#| label: tbl-iris
+#| tbl-cap: "Iris Data"
+
+library(knitr)
+kable(head(iris))
+```
+
+
+# An unnumbered section {-}
+
+For example an appendix?
+
+I can refer here to the previous @tbl-iris
+
+# Session Information {-}
+
+This document has been generated with...
+
+```{r}
+sessionInfo()
+```
+
+# References {-}

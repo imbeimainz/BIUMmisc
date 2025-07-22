@@ -1,0 +1,81 @@
+/*-- scss:defaults --*/
+
+// colourvalues::convert_colour(matrix(c(193,0,43), ncol = 3))
+// colourvalues::convert_colour(matrix(c(0,60,118), ncol = 3))
+// colourvalues::convert_colour(matrix(c(128,161,201), ncol = 3))
+
+// Color Palette
+$ummz-primary: #C1002B;
+$ummz-secondary: #80A1C9;
+$ummz-text-dark: #333333;
+$ummz-text-light: #556B7F;
+$ummz-background: #FFFFFF;
+$ummz-sidebar-bg: #F0F4F8;
+$ummz-border-light: #D9E6F0;
+$ummz-title-color: #003C76;
+$ummz-code-bioclike: #005C7A;
+// $bioc-reference-hover: #666666;
+$ummz-reference-hover: lighten($ummz-secondary, 20%); // Lighter tone of secondary color for reference hover
+
+// Typography
+$font-stack-primary: "Atkinson Hyperlegible", "Inter", "Source Sans Pro", "Open Sans", system-ui, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+/*-- scss:mixins --*/
+@mixin ummz-heading {
+    color: $ummz-primary;
+    font-weight: 500;
+    border-bottom: 1px solid $ummz-border-light;
+    padding-bottom: 0.3em;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+/*-- scss:rules --*/
+h1, h2, h3, h4, h5, h6 {
+    @include ummz-heading;
+}
+
+h1 {
+    font-size: 2em;
+    border-bottom: 2px solid $ummz-secondary;
+    &.title { //target h1 with class title.
+        color: $ummz-title-color; //apply custom color.
+    }
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.3em;
+}
+
+h4 {
+    font-size: 1.2em;
+}
+
+// Links
+a {
+    color: $ummz-secondary;
+    text-decoration: none;
+
+    &:hover {
+        color: darken($ummz-secondary, 10%);
+        text-decoration: underline;
+    }
+}
+
+// Code blocks
+pre, code {
+    border-color: lighten($ummz-secondary, 40%);
+}
+
+code {
+    color: $ummz-code-bioclike;
+}
+
+
+/*-- scss:uses --*/
+// Additional customizations
