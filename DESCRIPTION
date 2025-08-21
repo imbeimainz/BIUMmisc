@@ -31,6 +31,8 @@ Imports:
     rstudioapi,
     writexl,
     sessioninfo,
+    cli,
+    utils,
     SummarizedExperiment,
     DESeq2,
     GeneTonic,

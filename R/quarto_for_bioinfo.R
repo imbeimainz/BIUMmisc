@@ -17,6 +17,7 @@
 #' @export
 #'
 #' @importFrom cli cli_alert_info cli_alert_success cli_alert_warning
+#' @importFrom utils file.edit
 #'
 #' @examples
 #' temp_folder <- tempdir()
