@@ -1,0 +1,274 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+// Typography
+$mainFont: "Atkinson Hyperlegible", "Inter", "Source Sans Pro", "Open Sans", system-ui, sans-serif !default;
+$headingFont: "Atkinson Hyperlegible", "Inter", "Source Sans Pro", "Open Sans", system-ui, sans-serif !default;
+
+// Core Reveal.js theme variables
+$backgroundColor: #FFFFFF !default;
+$mainColor: #333333 !default;
+$headingColor: #C1002B !default;
+$linkColor: #80A1C9 !default;
+$linkColorHover: #6B8BB3 !default;
+$selectionBackgroundColor: #B3C7E6 !default;
+
+
+/*-- scss:rules --*/
+// Define custom color variables within rules section
+:root {
+  --ummz-primary: #C1002B;
+  --ummz-secondary: #80A1C9;
+  --ummz-text-dark: #333333;
+  --ummz-text-light: #556B7F;
+  --ummz-background: #FFFFFF;
+  --ummz-sidebar-bg: #F0F4F8;
+  --ummz-border-light: #D9E6F0;
+  --ummz-title-color: #003C76;
+  --ummz-code-bioclike: #005C7A;
+  --ummz-reference-hover: #A3B8D4;
+}
+
+// possibly refer to https://quarto.org/docs/presentations/revealjs/themes.html
+
+// Main reveal container
+.reveal {
+    font-family: var(--r-main-font);
+    color: var(--ummz-text-dark);
+}
+
+// Slide backgrounds
+.reveal .slides section {
+    background-color: var(--ummz-background);
+    color: var(--ummz-text-dark);
+}
+
+// Title slide specific styling
+.reveal .slides section.title-slide {
+    text-align: center;
+
+    h1.title {
+        color: var(--ummz-title-color);
+        font-size: 2.5em;
+        border-bottom: 3px solid var(--ummz-secondary);
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+        font-weight: 500;
+    }
+
+    .subtitle {
+        color: var(--ummz-text-light);
+        font-size: 1.2em;
+        margin-bottom: 1em;
+    }
+
+    .author, .date {
+        color: var(--ummz-text-light);
+        font-size: 1em;
+    }
+}
+
+// Regular slide headings
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    color: var(--ummz-title-color);
+    font-weight: 500;
+    // border-bottom: 1px solid var(--ummz-border-light);
+    // padding-bottom: 0.3em;
+    // margin-top: 1.5em;
+    // margin-bottom: 0.8em;
+    // font-family: var(--r-heading-font);
+    // text-transform: none;
+    // line-height: 1.2;
+}
+
+.reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    color: var(--ummz-primary);
+}
+
+.reveal h1 {
+    font-size: 2.2em;
+    border-bottom: 2px solid var(--ummz-secondary);
+}
+
+.reveal h2 {
+    font-size: 1.8em;
+}
+
+.reveal h3 {
+    font-size: 1.5em;
+}
+
+.reveal h4 {
+    font-size: 1.3em;
+}
+
+// Links
+.reveal a {
+    color: var(--ummz-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+        color: var(--ummz-reference-hover);
+        text-decoration: underline;
+    }
+}
+
+// Code blocks and inline code
+.reveal pre {
+    background-color: var(--ummz-sidebar-bg);
+    border: 1px solid var(--ummz-border-light);
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.reveal code {
+    color: var(--ummz-code-bioclike);
+    background-color: var(--ummz-sidebar-bg);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono monospace", monospace;
+}
+
+.reveal pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+// Lists
+.reveal ul, .reveal ol {
+    color: var(--ummz-text-dark);
+
+    li {
+        margin-bottom: 0.5em;
+    }
+}
+
+// Tables
+.reveal table {
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th {
+        background-color: var(--ummz-sidebar-bg);
+        color: var(--ummz-title-color);
+        font-weight: 600;
+        border-bottom: 2px solid var(--ummz-secondary);
+    }
+
+    td {
+        border-bottom: 1px solid var(--ummz-border-light);
+    }
+
+    th, td {
+        padding: 0.6em 1em;
+        text-align: left;
+    }
+}
+
+// Blockquotes
+.reveal blockquote {
+    border-left: 4px solid var(--ummz-secondary);
+    background-color: var(--ummz-sidebar-bg);
+    padding: 1em 1.5em;
+    margin: 1em 0;
+    font-style: italic;
+    color: var(--ummz-text-light);
+}
+
+// Progress bar
+.reveal .progress {
+    color: var(--ummz-secondary);
+}
+
+// Controls
+.reveal .controls {
+    color: var(--ummz-secondary);
+
+    .navigate-left, .navigate-right, .navigate-up, .navigate-down {
+        border-color: var(--ummz-secondary);
+
+        &:hover {
+            border-color: var(--ummz-reference-hover);
+        }
+    }
+}
+
+// Slide numbers
+.reveal .slide-number {
+    color: var(--ummz-text-light);
+    background-color: rgba(240, 244, 248, 0.8);
+    padding: 0.3em 0.6em;
+    border-radius: 3px;
+}
+
+// Fragment animations
+.reveal .fragment.highlight-current-red.current-fragment {
+    color: var(--ummz-primary);
+}
+
+.reveal .fragment.highlight-red {
+    color: var(--ummz-primary);
+}
+
+.reveal .fragment.highlight-blue {
+    color: var(--ummz-secondary);
+}
+
+// Custom slide layouts
+.reveal .slides section.inverse {
+    background-color: var(--ummz-title-color);
+    color: var(--ummz-background);
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--ummz-background);
+        border-bottom-color: var(--ummz-secondary);
+    }
+
+    a {
+        color: var(--ummz-reference-hover);
+
+        &:hover {
+            color: #C4D4E8;
+        }
+    }
+}
+
+// Speaker notes (if using)
+.reveal aside.notes {
+    color: var(--ummz-text-dark);
+    background-color: var(--ummz-sidebar-bg);
+}
+
+// Two-column layout helper
+.reveal .columns {
+    display: flex;
+    gap: 2em;
+
+    .column {
+        flex: 1;
+    }
+}
+
+// Emphasis classes
+.reveal .emphasis {
+    color: var(--ummz-primary);
+    font-weight: 600;
+}
+
+.reveal .muted {
+    color: var(--ummz-text-light);
+}
+
+// Large text for important points
+.reveal .large {
+    font-size: 1.3em;
+    line-height: 1.3;
+}
+
+// Small text for footnotes or details
+.reveal .small {
+    font-size: 0.8em;
+    color: var(--ummz-text-light);
+}

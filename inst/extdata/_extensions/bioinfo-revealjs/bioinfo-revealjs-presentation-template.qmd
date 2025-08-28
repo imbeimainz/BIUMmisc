@@ -1,0 +1,219 @@
+---
+title: >
+  My Bioinfo presentation
+subtitle: >
+  For example, the venue
+author:
+- name: Name Surname
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz, Germany
+  email: yourmail@uni-mainz.de
+## add here more authors if needed - and do add the affiliation(s)
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+format: 
+  revealjs:
+    theme: 
+    - default
+    - ummz_reveal_theme.scss
+    embed-resources: true
+    mainfont: "Atkinson Hyperlegible"
+    # mainfont: "IBM Plex Sans"
+    ## making links automatically open in a new window 
+    link-external-newwindow: true
+    incremental: false
+    # incremental: true
+    footer: "Footer text to put below each slide"
+    slide-number: c/t
+---
+
+## Possibly, the motivation
+
+Yadda yadda
+
+## The outline of your presentation?
+
+1. first this
+1. then that
+1. aand then that again
+
+# If you use a section for some slides...
+
+(and you can actually navigate the slides also vertically in the ESC-view...)
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+Little bit of `content`
+
+### A subheader
+
+some content again
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+```{r}
+#| echo: true
+4 + 5
+```
+
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+Here is a link to the [IMBEI](https://unimedizin-mainz.de/IMBEI)
+
+## The usual content
+
+- Some bullet
+- points
+- and a break after that
+
+. . .
+
+the things after the break
+
+## Something in two columns
+
+:::: {.columns}
+
+::: {.column width="50%"}
+Left column
+:::
+
+::: {.column width="50%"}
+Right column
+:::
+
+::::
+
+
+## Size of the content {.smaller}
+
+Having smaller content only here
+
+## Scrollable content {.scrollable}
+
+Having a scrollable slide because you might have a looooong list of bullet points
+
+* just
+* just
+* just
+* just
+* just
+* just
+* just
+* just
+* just
+* just
+* like 
+* this
+
+## Slide with speaker notes
+
+Slide content
+
+To view the notes you might need to open with `s` the Speaker View
+
+::: {.notes}
+Speaker notes go here.
+:::
+
+## Asides and footnotes
+
+Slide content
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+
+
+
+## Asides and footnotes pt2
+
+- Green ^[A footnote]
+- Brown
+- Purple
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+
+## Some classic plots
+
+```{r}
+#| echo: true
+#| output-location: slide
+library(ggplot2)
+ggplot(airquality, aes(Temp, Ozone)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
+```
+
+## Some classic plots - the same, but shown as fragment
+
+```{r}
+#| echo: true
+#| output-location: fragment
+library(ggplot2)
+ggplot(airquality, aes(Temp, Ozone)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
+```
+
+
+## A slide with tabsets
+
+::: {.panel-tabset}
+
+### Tab A
+
+Content for `Tab A`
+
+### Tab B
+
+Content for `Tab B`
+
+:::
+
+## This is ultra fancy {auto-animate="true"}
+
+```r
+# Fill in the spot we created for a plot
+output$phonePlot <- renderPlot({
+  # Render a barplot
+})
+```
+
+## This is ultra fancy {auto-animate=true}
+
+```r
+# Fill in the spot we created for a plot
+output$phonePlot <- renderPlot({
+  # Render a barplot
+  barplot(WorldPhones[,input$region]*1000, 
+          main=input$region,
+          ylab="Number of Telephones",
+          xlab="Year")
+})
+```
+
+# The final words (?)
+
+## Thanks & Acknowledgments
+
+... maybe a photo of people involved?
+
+## References?
+
+Could be cool to have it automatically built
