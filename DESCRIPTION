@@ -1,7 +1,7 @@
 Package: BIUMmisc
 Title: A collection of functions and scripts commonly used by the 
     BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI
-Version: 0.2.0
+Version: 0.3.0
 Description: This is a collection of functions and scripts commonly used by the 
     BIUM-MZ Core Facility and the Bioinformatics group at the IMBEI.
 Authors@R:
