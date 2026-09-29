@@ -137,7 +137,7 @@ create_DEresults <- function(resuSet = NULL,
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes geom_bar theme theme_bw coord_flip
-#' element_text labs
+#'   element_text labs
 #' @importFrom DESeq2 counts
 #'
 #' @examples

@@ -21,35 +21,48 @@ export(run_salmon)
 export(samplesheet_creator)
 export(sepguesser)
 export(sessioninfo_extra)
-importFrom(DESeq2,counts)
-importFrom(DESeq2,estimateSizeFactors)
-importFrom(DESeq2,lfcShrink)
-importFrom(DESeq2,results)
+importFrom(DESeq2,
+  counts,
+  estimateSizeFactors,
+  lfcShrink,
+  results
+)
 importFrom(DT,datatable)
-importFrom(GeneTonic,GeneTonicList)
-importFrom(GeneTonic,get_aggrscores)
-importFrom(GeneTonic,shake_topGOtableResult)
-importFrom(SummarizedExperiment,"rowData<-")
-importFrom(SummarizedExperiment,assay)
-importFrom(SummarizedExperiment,assayNames)
-importFrom(SummarizedExperiment,rowData)
-importFrom(cli,cli_alert_info)
-importFrom(cli,cli_alert_success)
-importFrom(ggplot2,aes)
-importFrom(ggplot2,coord_flip)
-importFrom(ggplot2,element_text)
-importFrom(ggplot2,geom_bar)
-importFrom(ggplot2,ggplot)
-importFrom(ggplot2,labs)
-importFrom(ggplot2,theme)
-importFrom(ggplot2,theme_bw)
+importFrom(GeneTonic,
+  GeneTonicList,
+  get_aggrscores,
+  shake_topGOtableResult
+)
+importFrom(SummarizedExperiment,
+  "rowData<-",
+  assay,
+  assayNames,
+  rowData
+)
+importFrom(cli,
+  cli_alert_info,
+  cli_alert_success
+)
+importFrom(ggplot2,
+  aes,
+  coord_flip,
+  element_text,
+  geom_bar,
+  ggplot,
+  labs,
+  theme,
+  theme_bw
+)
 importFrom(glue,glue)
-importFrom(mosdef,buttonifier)
-importFrom(mosdef,create_link_ENSEMBL)
-importFrom(mosdef,create_link_NCBI)
-importFrom(mosdef,deresult_to_df)
-importFrom(rstudioapi,getSourceEditorContext)
-importFrom(rstudioapi,isAvailable)
+importFrom(mosdef,
+  create_link_ENSEMBL,
+  create_link_NCBI,
+  deresult_to_df
+)
+importFrom(rstudioapi,
+  getSourceEditorContext,
+  isAvailable
+)
 importFrom(sessioninfo,session_info)
 importFrom(tools,file_path_sans_ext)
 importFrom(utils,packageVersion)
